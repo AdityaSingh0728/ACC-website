@@ -11,13 +11,14 @@ import accLogo from "./assets/acc-logo.png";
 import LandingPage from "./pages/LandingPage";
 import ProjectsPage from "./pages/ProjectsPage";
 import IPL2026Page from "./pages/IPL2026Page";
+import TeamPage from "./pages/TeamPage";
 
 /* ── nav config ── */
 const SECTION_LINKS = [
   { label: "About",          href: "/#about" },
   { label: "Domains",        href: "/#domains" },
   { label: "Active Portals", href: "/#events-portal" },
-  { label: "Team",           href: "/#team" },
+  { label: "Team",           href: "/team" },
   { label: "Contact",        href: "/#contact" },
 ];
 
@@ -250,6 +251,7 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/"                  element={<LandingPage />} />
+          <Route path="/team" element={<TeamPage />} />
           <Route path="/projects"          element={<ProjectsPage />} />
           <Route path="/projects/ipl-2026" element={<IPL2026Page />} />
           <Route path="/project-ipl"       element={<IPL2026Page />} />

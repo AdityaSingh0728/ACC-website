@@ -488,12 +488,7 @@ const EVENTS = [
   },
 ];
 
-const TEAM = [
-  { name: "Club President", role: "Overall Lead", initials: "CP" },
-  { name: "Vice President", role: "Strategy & Ops", initials: "VP" },
-  { name: "Tech Lead", role: "Analytics Head", initials: "TL" },
-  { name: "Events Head", role: "Events & Outreach", initials: "EH" },
-];
+
 
 const MARQUEE_ITEMS = [
   "Analytics",
@@ -1849,52 +1844,7 @@ function Events() {
 /* --------------------------------------------------------------
    TEAM
 -------------------------------------------------------------- */
-function Team() {
-  const [ref, inView] = useInView();
-  return (
-    <section
-      id="team"
-      ref={ref}
-      className="relative section-py px-4 sm:px-6 border-t border-white/5"
-    >
-      <div className="max-w-7xl mx-auto text-center">
-        <span
-          className={`text-white/30 text-xs tracking-[0.3em] uppercase font-medium ${inView ? "animate-fade-in-up" : "opacity-0"}`}
-        >
-          Leadership
-        </span>
-        <h2
-          className={`mt-3 sm:mt-4 font-heading text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white ${inView ? "animate-fade-in-up delay-100" : "opacity-0"}`}
-        >
-          The Core Team
-        </h2>
-        <p
-          className={`mt-3 sm:mt-4 text-white/40 text-sm sm:text-base max-w-lg mx-auto ${inView ? "animate-fade-in-up delay-200" : "opacity-0"}`}
-        >
-          Driven by passion and purpose - meet the people steering ACC forward.
-        </p>
-        <div className="mt-10 sm:mt-16 grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-          {TEAM.map((t, i) => (
-            <div
-              key={i}
-              className={`glass-card rounded-2xl p-5 sm:p-6 lg:p-8 group hover:scale-[1.03] ${inView ? `animate-fade-in-up delay-${(i + 2) * 100}` : "opacity-0"}`}
-            >
-              <div className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 mx-auto rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-3 sm:mb-4 group-hover:border-white/20 transition-colors">
-                <span className="font-heading text-lg sm:text-xl lg:text-2xl font-bold text-white/60">
-                  {t.initials}
-                </span>
-              </div>
-              <h3 className="font-heading text-sm sm:text-base lg:text-lg font-semibold text-white">
-                {t.name}
-              </h3>
-              <p className="text-white/30 text-xs sm:text-sm mt-1">{t.role}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
+
 
 /* --------------------------------------------------------------
    CONTACT
@@ -1978,7 +1928,7 @@ function LandingPage() {
       <Domains />
       <InductionPipeline />
       <Events />
-      <Team />
+  
       <Contact />
     </>
   );
