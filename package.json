@@ -9,6 +9,7 @@
     "preview": "npm --prefix frontend run preview"
   },
   "dependencies": {
+    "lucide-react": "^1.24.0",
     "react-countup": "^6.5.3",
     "react-intersection-observer": "^10.1.0"
   }

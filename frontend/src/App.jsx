@@ -12,14 +12,14 @@ import LandingPage from "./pages/LandingPage";
 import ProjectsPage from "./pages/ProjectsPage";
 import IPL2026Page from "./pages/IPL2026Page";
 import TeamPage from "./pages/TeamPage";
-
+import Domains from "./pages/DomainPage";
+import Events from "./pages/EventsPage";
 /* ── nav config ── */
 const SECTION_LINKS = [
   { label: "About",          href: "/#about" },
-  { label: "Domains",        href: "/#domains" },
-  { label: "Active Portals", href: "/#events-portal" },
-  { label: "Team",           href: "/team" },
-  { label: "Contact",        href: "/#contact" },
+  { label: "Domains",        href: "/domains" },
+  { label: "Active Portals", href: "/events-portal" },
+  { label: "Team",           href: "/team" }
 ];
 
 /* ══════════════════════════════════════════
@@ -94,12 +94,6 @@ function Navbar() {
             </a>
           ))}
 
-          <Link
-            to="/projects"
-            className={`nav-link text-sm ${location.pathname === "/projects" ? "active" : ""}`}
-          >
-            Projects
-          </Link>
 
           <a
             href="/#events-portal"
@@ -252,6 +246,8 @@ function App() {
         <Routes>
           <Route path="/"                  element={<LandingPage />} />
           <Route path="/team" element={<TeamPage />} />
+          <Route path="/domains" element={<Domains />} />
+          <Route path="/events-portal" element={<Events />} />
           <Route path="/projects"          element={<ProjectsPage />} />
           <Route path="/projects/ipl-2026" element={<IPL2026Page />} />
           <Route path="/project-ipl"       element={<IPL2026Page />} />

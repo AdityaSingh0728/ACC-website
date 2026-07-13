@@ -1,45 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import accLogo from "../assets/acc-logo.png";
 
-const FORM_LINKS = {
-  induction:
-    import.meta.env.VITE_INDUCTION_FORM_URL ??
-    "https://forms.gle/your-induction-form-link",
-  analyticsBootcamp:
-    import.meta.env.VITE_ANALYTICS_BOOTCAMP_FORM_URL ??
-    "https://forms.gle/your-analytics-workshop-link",
-  caseCrunch:
-    import.meta.env.VITE_CASE_CRUNCH_FORM_URL ??
-    "https://forms.gle/your-case-crunch-form-link",
-  dataverse:
-    import.meta.env.VITE_DATAVERSE_FORM_URL ??
-    "https://forms.gle/your-dataverse-form-link",
-  consultOMania:
-    import.meta.env.VITE_CONSULT_O_MANIA_FORM_URL ??
-    "https://forms.gle/your-consult-form-link",
-  summit:
-    import.meta.env.VITE_ANALYTICS_SUMMIT_FORM_URL ??
-    "https://forms.gle/your-summit-form-link",
-};
 
-const RESOURCE_LINKS = {
-  analyticsBootcampDataset:
-    import.meta.env.VITE_ANALYTICS_BOOTCAMP_DATASET_URL ??
-    "https://drive.google.com/your-dataset-link",
-  caseCrunchDataset:
-    import.meta.env.VITE_CASE_CRUNCH_DATASET_URL ??
-    "https://drive.google.com/your-case-crunch-dataset",
-  caseCrunchPpt:
-    import.meta.env.VITE_CASE_CRUNCH_PPT_URL ??
-    "https://forms.gle/your-ppt-submission-link",
-  dataverseDataset:
-    import.meta.env.VITE_DATAVERSE_DATASET_URL ??
-    "https://drive.google.com/your-dataverse-dataset",
-  dataversePpt:
-    import.meta.env.VITE_DATAVERSE_PPT_URL ??
-    "https://forms.gle/your-dataverse-submission-link",
-  summitPpt: import.meta.env.VITE_ANALYTICS_SUMMIT_PPT_URL ?? "",
-};
+
+
 
 /* ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
    STATIC DATA
@@ -51,442 +15,9 @@ const STATS = [
   { value: "2+", label: "Years of Excellence" },
 ];
 
-const DOMAINS = [
-  {
-    icon: "ð",
-    title: "Data Analytics",
-    description:
-      "Transforming raw data into actionable insights through advanced statistical modelling, machine learning, and visualization techniques.",
-  },
-  {
-    icon: "ð¼",
-    title: "Management Consulting",
-    description:
-      "Providing strategic solutions for real-world business challenges through case competitions, live projects, and industry collaboration.",
-  },
-  {
-    icon: "ð",
-    title: "Financial Analysis",
-    description:
-      "Deep-diving into market trends, equity research, valuation modelling, and portfolio management with a data-centric approach.",
-  },
-  {
-    icon: "ð§ ",
-    title: "Product & Strategy",
-    description:
-      "Crafting go-to-market strategies, product roadmaps, and leveraging analytical frameworks to drive business growth.",
-  },
-];
 
-/* ââ Rich event data with Unstop-style fields ââ */
-const EVENTS = [
-  {
-    id: "induction",
-    title: "Club Induction 2026",
-    tag: "Induction",
-    tagClass: "tag-induction",
-    cardClass: "event-card-induction",
-    accentColor: "#10B981",
-    icon: "ð",
-    date: "August 2026",
-    seats: "50 seats",
-    teamSize: "Individual",
-    eligibility: "1st & 2nd Year Students",
-    registered: 0,
-    portalStatus: "Induction Portal Active",
-    description:
-      "The official onboarding ceremony for new ACC members. Get introduced to our culture, domains, ongoing projects, and senior mentors. This is your gateway into one of NIT Jamshedpur's most active analytical communities.",
-    about: [
-      "ACC Induction is a structured, merit-based selection process designed to identify passionate and driven students who want to contribute to the analytics and consulting ecosystem at NIT Jamshedpur.",
-      "Selected members gain access to live industry projects, case competition training, mentorship from seniors placed at top consulting and analytics firms, and a vibrant peer network.",
-      "The process evaluates candidates across multiple dimensions â analytical aptitude, structured thinking, communication, and cultural alignment with ACC's values.",
-    ],
-    eligibilityRules: [
-      "Open to 1st and 2nd year B.Tech / Integrated M.Tech students of NIT Jamshedpur",
-      "No prior experience required â we train from scratch",
-      "Must be available for all rounds of the selection process",
-      "Genuine interest in analytics, consulting, finance, or product strategy",
-    ],
-    evaluationCriteria: [
-      "Quantitative & logical aptitude score",
-      "Case structuring clarity and hypothesis-driven thinking",
-      "Communication and presentation skills",
-      "Cultural fit and long-term commitment to the club",
-    ],
-    rounds: [
-      {
-        title: "Round 1 â Digital Registration",
-        date: "Aug 1â10, 2026",
-        status: "Live",
-        description:
-          "Fill the structured digital application form covering academic background, domain interests, and motivation. Shortlisting based on form quality.",
-      },
-      {
-        title: "Round 2 â Analytical Screening",
-        date: "Aug 15, 2026",
-        status: "Locked",
-        description:
-          "A 45-minute online test covering quantitative aptitude, data interpretation, logical reasoning, and case-based MCQs. Top 30% advance.",
-      },
-      {
-        title: "Round 3 â Case Structuring",
-        date: "Aug 20â22, 2026",
-        status: "Locked",
-        description:
-          "Live 20-minute case structuring session with a senior ACC member. You receive a business problem and are evaluated on structured thinking and communication.",
-      },
-      {
-        title: "Round 4 â Core Board Interview",
-        date: "Aug 25â27, 2026",
-        status: "Locked",
-        description:
-          "Final personal interview with the ACC Core Board assessing cultural fit, domain passion, and long-term commitment. Successful candidates receive offer letters.",
-      },
-    ],
-    highlights: [
-      "Meet the core team",
-      "Domain orientation",
-      "Project showcase",
-      "Mentorship pairing",
-    ],
-    form_external_link: FORM_LINKS.induction,
-    dataset_download_link: "",
-    ppt_submit_link: "",
-    status: "upcoming",
-  },
-  {
-    id: "workshop-analytics",
-    title: "Analytics Bootcamp",
-    tag: "Workshop",
-    tagClass: "tag-workshop",
-    cardClass: "event-card-workshop",
-    accentColor: "#7C3AED",
-    icon: "ð ï¸",
-    date: "September 2026",
-    seats: "40 seats",
-    teamSize: "Individual",
-    eligibility: "All Years",
-    registered: 0,
-    portalStatus: "Registrations Open",
-    description:
-      "Hands-on workshop covering Python for data analysis, Pandas, Matplotlib, and building your first ML pipeline from scratch.",
-    about: [
-      "The Analytics Bootcamp is a 2-day intensive hands-on workshop designed to take you from zero to building your first end-to-end data pipeline.",
-      "You will work with real datasets, learn industry-standard tools, and build a mini-project that you can showcase in your portfolio.",
-      "Sessions are led by ACC's senior tech members and alumni currently working in data science and analytics roles.",
-    ],
-    eligibilityRules: [
-      "Open to all years of B.Tech / M.Tech at NIT Jamshedpur",
-      "Basic programming knowledge preferred but not mandatory",
-      "Laptop with Python installed required for hands-on sessions",
-      "Limited to 40 participants for quality learning experience",
-    ],
-    evaluationCriteria: [
-      "Completion of all hands-on exercises",
-      "Mini-project submission at end of Day 2",
-      "Peer review and mentor feedback",
-    ],
-    rounds: [
-      {
-        title: "Round 1 â Registration",
-        date: "Sep 1â7, 2026",
-        status: "Live",
-        description:
-          "Register via the form below. First 40 confirmed registrations get a seat. Confirmation email sent within 24 hours.",
-      },
-      {
-        title: "Round 2 â Day 1: Foundations",
-        date: "Sep 14, 2026",
-        status: "Locked",
-        description:
-          "Python fundamentals, Pandas for data wrangling, Matplotlib & Seaborn for visualization. Hands-on exercises with real datasets.",
-      },
-      {
-        title: "Round 3 â Day 2: ML Pipeline",
-        date: "Sep 15, 2026",
-        status: "Locked",
-        description:
-          "Scikit-learn basics, building a classification model, evaluation metrics, and mini-project submission. Certificate of completion awarded.",
-      },
-    ],
-    highlights: [
-      "Python & Pandas",
-      "Data visualization",
-      "ML fundamentals",
-      "Live project",
-    ],
-    form_external_link: FORM_LINKS.analyticsBootcamp,
-    dataset_download_link: RESOURCE_LINKS.analyticsBootcampDataset,
-    ppt_submit_link: "",
-    status: "upcoming",
-  },
-  {
-    id: "case-crunch",
-    title: "Case Crunch 2026",
-    tag: "Flagship",
-    tagClass: "tag-flagship",
-    cardClass: "event-card-flagship",
-    accentColor: "#F59E0B",
-    icon: "ð",
-    date: "October 2026",
-    seats: "500+ participants",
-    teamSize: "Teams of 2â3",
-    eligibility: "All Colleges",
-    registered: 0,
-    portalStatus: "Flagship Event Â· Registrations Soon",
-    description:
-      "Our annual inter-college case study competition attracting participants from premier B-schools and engineering institutes across India.",
-    about: [
-      "Case Crunch is ACC's flagship annual inter-college case study competition, now in its 3rd edition. It attracts 500+ participants from premier B-schools and engineering institutes across India.",
-      "Teams are given a real-world business problem and must deliver a structured, data-backed solution deck within a defined timeframe. The best teams present to a panel of industry judges.",
-      "Past editions have featured problems from sectors including FMCG, fintech, healthcare, and e-commerce, with judges from McKinsey, BCG, Deloitte, and leading startups.",
-    ],
-    eligibilityRules: [
-      "Open to students from any college across India",
-      "Teams of 2â3 members only (no solo entries)",
-      "At least one team member must be a current student",
-      "Each participant can be part of only one team",
-    ],
-    evaluationCriteria: [
-      "Problem structuring and MECE framework application",
-      "Data analysis quality and insight depth",
-      "Solution feasibility and business impact",
-      "Presentation clarity and Q&A handling",
-    ],
-    rounds: [
-      {
-        title: "Round 1 â Team Registration",
-        date: "Oct 1â10, 2026",
-        status: "Live",
-        description:
-          "Register your team via the form. Download the problem statement PDF after registration confirmation.",
-      },
-      {
-        title: "Round 2 â Solution Deck Submission",
-        date: "Oct 15, 2026",
-        status: "Locked",
-        description:
-          "Submit your analytical solution deck (PPT/PDF, max 12 slides) via the submission portal. Top 20 teams advance to finals.",
-      },
-      {
-        title: "Round 3 â Grand Finale",
-        date: "Oct 22, 2026",
-        status: "Locked",
-        description:
-          "Top 20 teams present live to a panel of industry judges at NIT Jamshedpur. Cash prizes for top 3 teams. Networking dinner follows.",
-      },
-    ],
-    highlights: [
-      "Inter-college",
-      "Cash prizes",
-      "Industry judges",
-      "Networking",
-    ],
-    form_external_link: FORM_LINKS.caseCrunch,
-    dataset_download_link: RESOURCE_LINKS.caseCrunchDataset,
-    ppt_submit_link: RESOURCE_LINKS.caseCrunchPpt,
-    status: "upcoming",
-  },
-  {
-    id: "dataverse",
-    title: "DataVerse Hackathon",
-    tag: "Hackathon",
-    tagClass: "tag-hackathon",
-    cardClass: "event-card-hackathon",
-    accentColor: "#F59E0B",
-    icon: "â¡",
-    date: "November 2026",
-    seats: "100 participants",
-    teamSize: "Teams of 2â4",
-    eligibility: "NIT Jamshedpur Students",
-    registered: 0,
-    portalStatus: "Hackathon Portal Opening Soon",
-    description:
-      "A 24-hour data science hackathon where teams solve real industry problems using analytics, ML, and creative visualization.",
-    about: [
-      "DataVerse is ACC's annual 24-hour data science hackathon, bringing together the best analytical minds at NIT Jamshedpur to solve real industry-sponsored problems.",
-      "Teams receive a dataset and problem statement at the start of the hackathon and must build an end-to-end analytical solution â from EDA to model deployment â within 24 hours.",
-      "Industry mentors are available on-site throughout the hackathon. Solutions are judged on technical depth, business relevance, and presentation quality.",
-    ],
-    eligibilityRules: [
-      "Open to all students of NIT Jamshedpur",
-      "Teams of 2â4 members",
-      "Cross-department teams encouraged",
-      "Participants must bring their own laptops",
-    ],
-    evaluationCriteria: [
-      "Exploratory data analysis depth and quality",
-      "Model performance and technical rigor",
-      "Business insight and actionability of findings",
-      "Final presentation and live demo",
-    ],
-    rounds: [
-      {
-        title: "Round 1 â Team Registration",
-        date: "Nov 1â10, 2026",
-        status: "Live",
-        description:
-          "Register your team. Download the sample dataset to prepare. Problem statement released at hackathon start.",
-      },
-      {
-        title: "Round 2 â 24-Hour Hackathon",
-        date: "Nov 20â21, 2026",
-        status: "Locked",
-        description:
-          "The main event. Teams work on the problem dataset, build models, and prepare a solution deck. Mentors available throughout.",
-      },
-      {
-        title: "Round 3 â Final Presentations",
-        date: "Nov 21, 2026",
-        status: "Locked",
-        description:
-          "Top 8 teams present their solutions to judges. Winners announced and prizes distributed at the closing ceremony.",
-      },
-    ],
-    highlights: [
-      "24-hour sprint",
-      "Real datasets",
-      "Mentors on-site",
-      "Prizes & goodies",
-    ],
-    form_external_link: FORM_LINKS.dataverse,
-    dataset_download_link: RESOURCE_LINKS.dataverseDataset,
-    ppt_submit_link: RESOURCE_LINKS.dataversePpt,
-    status: "upcoming",
-  },
-  {
-    id: "consult-o-mania",
-    title: "Consult-O-Mania",
-    tag: "Workshop",
-    tagClass: "tag-workshop",
-    cardClass: "event-card-workshop",
-    accentColor: "#7C3AED",
-    icon: "ð¡",
-    date: "December 2026",
-    seats: "60 seats",
-    teamSize: "Individual",
-    eligibility: "All Years",
-    registered: 0,
-    portalStatus: "Workshop Registrations Open",
-    description:
-      "Interactive workshop series featuring industry leaders sharing insights on consulting frameworks, case interview prep, and career paths.",
-    about: [
-      "Consult-O-Mania is a 3-session workshop series designed to give you a comprehensive foundation in management consulting â from frameworks to interview prep.",
-      "Each session is led by an industry professional or ACC alumni currently working at top consulting firms. Sessions combine theory with live case practice.",
-      "By the end of the series, you will have a solid grasp of MECE, issue trees, hypothesis-driven problem solving, and how to structure a consulting engagement.",
-    ],
-    eligibilityRules: [
-      "Open to all years at NIT Jamshedpur",
-      "No prior consulting knowledge required",
-      "Attendance at all 3 sessions mandatory for certificate",
-      "Limited to 60 participants",
-    ],
-    evaluationCriteria: [
-      "Participation in live case exercises",
-      "Mock case interview performance",
-      "Final case submission quality",
-    ],
-    rounds: [
-      {
-        title: "Session 1 â Consulting Fundamentals",
-        date: "Dec 5, 2026",
-        status: "Live",
-        description:
-          "Introduction to consulting, MECE principle, issue trees, and hypothesis-driven thinking. Live case walkthrough.",
-      },
-      {
-        title: "Session 2 â Case Interview Prep",
-        date: "Dec 12, 2026",
-        status: "Locked",
-        description:
-          "Market sizing, profitability frameworks, and M&A cases. Peer practice with feedback from senior members.",
-      },
-      {
-        title: "Session 3 â Mock Interviews & Debrief",
-        date: "Dec 19, 2026",
-        status: "Locked",
-        description:
-          "Full mock case interviews with industry professionals. Personalized feedback and career guidance session.",
-      },
-    ],
-    highlights: [
-      "Industry speakers",
-      "Case frameworks",
-      "Mock interviews",
-      "Career guidance",
-    ],
-    form_external_link: FORM_LINKS.consultOMania,
-    dataset_download_link: "",
-    ppt_submit_link: "",
-    status: "upcoming",
-  },
-  {
-    id: "analytics-summit",
-    title: "Analytics Summit 2027",
-    tag: "Conference",
-    tagClass: "tag-conference",
-    cardClass: "event-card-conference",
-    accentColor: "#2563EB",
-    icon: "ð",
-    date: "January 2027",
-    seats: "200 seats",
-    teamSize: "Individual",
-    eligibility: "Open to All",
-    registered: 0,
-    portalStatus: "Conference Â· Early Bird Open",
-    description:
-      "An annual conference bringing together thought leaders, alumni, and students to discuss the future of analytics and data-driven strategy.",
-    about: [
-      "The ACC Analytics Summit is our flagship annual conference, bringing together industry thought leaders, distinguished alumni, and the brightest student minds to explore the cutting edge of analytics and strategy.",
-      "The summit features keynote addresses, panel discussions, research paper presentations, and networking sessions across a full-day format.",
-      "Past summits have hosted speakers from Google, Amazon, McKinsey, Goldman Sachs, and leading Indian startups.",
-    ],
-    eligibilityRules: [
-      "Open to students, faculty, and industry professionals",
-      "Research paper submissions welcome from all colleges",
-      "Early bird registration closes 2 weeks before the event",
-      "In-person attendance at NIT Jamshedpur campus",
-    ],
-    evaluationCriteria: [
-      "Research paper review (for paper presenters)",
-      "Poster session judging",
-      "Best student presentation award",
-    ],
-    rounds: [
-      {
-        title: "Phase 1 â Early Bird Registration",
-        date: "Jan 1â15, 2027",
-        status: "Live",
-        description:
-          "Register early for discounted entry. Research paper and poster submission portal opens simultaneously.",
-      },
-      {
-        title: "Phase 2 â Paper Review & Schedule",
-        date: "Jan 16â20, 2027",
-        status: "Locked",
-        description:
-          "Submitted research papers reviewed by faculty panel. Accepted papers notified and scheduled for presentation slots.",
-      },
-      {
-        title: "Phase 3 â Summit Day",
-        date: "Jan 28, 2027",
-        status: "Locked",
-        description:
-          "Full-day conference with keynotes, panels, paper presentations, poster sessions, and networking dinner. Awards ceremony at close.",
-      },
-    ],
-    highlights: [
-      "Keynote speakers",
-      "Panel discussions",
-      "Alumni network",
-      "Research showcase",
-    ],
-    form_external_link: FORM_LINKS.summit,
-    dataset_download_link: "",
-    ppt_submit_link: RESOURCE_LINKS.summitPpt,
-    status: "upcoming",
-  },
-];
+
+
 
 
 
@@ -1345,11 +876,49 @@ function MarqueeBanner() {
   );
 }
 
-/* --------------------------------------------------------------
-   ABOUT
--------------------------------------------------------------- */
+function CountUp({ value, inView, duration = 1500 }) {
+  const [count, setCount] = useState(0);
+  const hasRun = useRef(false);
+
+  // Split value into prefix/number/suffix, e.g. "50+" -> "", 50, "+"
+  const match = String(value).match(/^([^\d]*)(\d+(?:\.\d+)?)(.*)$/);
+  const prefix = match ? match[1] : "";
+  const target = match ? parseFloat(match[2]) : 0;
+  const suffix = match ? match[3] : "";
+  const decimals = match && match[2].includes(".") ? match[2].split(".")[1].length : 0;
+
+  useEffect(() => {
+    if (!inView || hasRun.current) return;
+    hasRun.current = true;
+
+    let start = null;
+
+    const step = (timestamp) => {
+      if (!start) start = timestamp;
+      const progress = Math.min((timestamp - start) / duration, 1);
+      setCount(target * progress); // linear, no easing
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      } else {
+        setCount(target);
+      }
+    };
+
+    requestAnimationFrame(step);
+  }, [inView, target, duration]);
+
+  return (
+    <>
+      {prefix}
+      {decimals ? count.toFixed(decimals) : Math.round(count)}
+      {suffix}
+    </>
+  );
+}
+
 function About() {
   const [ref, inView] = useInView();
+
   return (
     <section id="about" ref={ref} className="relative section-py px-4 sm:px-6">
       <div className="max-w-7xl mx-auto">
@@ -1393,7 +962,7 @@ function About() {
                 className="glass-card rounded-2xl p-5 sm:p-6 lg:p-8 text-center hover:scale-[1.03] transition-transform duration-300"
               >
                 <span className="block font-heading text-2xl sm:text-3xl lg:text-4xl font-bold text-white">
-                  {s.value}
+                  <CountUp value={s.value} inView={inView} />
                 </span>
                 <span className="block mt-1.5 sm:mt-2 text-white/30 text-xs sm:text-sm tracking-wide">
                   {s.label}
@@ -1410,55 +979,6 @@ function About() {
 /* --------------------------------------------------------------
    DOMAINS
 -------------------------------------------------------------- */
-function Domains() {
-  const [ref, inView] = useInView();
-  return (
-    <section
-      id="domains"
-      ref={ref}
-      className="relative section-py px-4 sm:px-6 border-t border-white/5"
-    >
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center">
-          <span
-            className={`text-white/30 text-xs tracking-[0.3em] uppercase font-medium ${inView ? "animate-fade-in-up" : "opacity-0"}`}
-          >
-            What We Do
-          </span>
-          <h2
-            className={`mt-3 sm:mt-4 font-heading text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white ${inView ? "animate-fade-in-up delay-100" : "opacity-0"}`}
-          >
-            Our Domains
-          </h2>
-          <p
-            className={`mt-3 sm:mt-4 text-white/40 text-sm sm:text-base max-w-lg mx-auto ${inView ? "animate-fade-in-up delay-200" : "opacity-0"}`}
-          >
-            We operate across four core verticals, each fostering deep expertise
-            and hands-on experience.
-          </p>
-        </div>
-        <div className="mt-10 sm:mt-16 grid sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-          {DOMAINS.map((d, i) => (
-            <div
-              key={i}
-              className={`glass-card rounded-2xl p-5 sm:p-6 lg:p-8 group hover-lift ${inView ? `animate-fade-in-up delay-${(i + 2) * 100}` : "opacity-0"}`}
-            >
-              <span className="text-2xl sm:text-3xl lg:text-4xl block mb-3 sm:mb-4 group-hover:scale-110 transition-transform duration-300">
-                {d.icon}
-              </span>
-              <h3 className="font-heading text-base sm:text-lg font-semibold text-white mb-2">
-                {d.title}
-              </h3>
-              <p className="text-white/35 text-xs sm:text-sm leading-relaxed">
-                {d.description}
-              </p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
 
 /* --------------------------------------------------------------
    INDUCTION PIPELINE
@@ -1666,180 +1186,6 @@ function InductionPipeline() {
 /* --------------------------------------------------------------
    EVENTS SECTION
 -------------------------------------------------------------- */
-function Events() {
-  const [ref, inView] = useInView();
-  const [activeFilter, setActiveFilter] = useState("All");
-  const [selectedEvent, setSelectedEvent] = useState(null);
-  const filters = [
-    "All",
-    "Induction",
-    "Workshop",
-    "Hackathon",
-    "Flagship",
-    "Conference",
-  ];
-  const filtered =
-    activeFilter === "All"
-      ? EVENTS
-      : EVENTS.filter((e) => e.tag === activeFilter);
-
-  return (
-    <section
-      id="events-portal"
-      ref={ref}
-      className="relative section-py px-4 sm:px-6 border-t border-white/5"
-    >
-      <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8 sm:mb-12">
-          <div>
-            <span
-              className={`text-white/30 text-xs tracking-[0.3em] uppercase font-medium ${inView ? "animate-fade-in-up" : "opacity-0"}`}
-            >
-              Active Portals
-            </span>
-            <h2
-              className={`mt-3 sm:mt-4 font-heading text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white ${inView ? "animate-fade-in-up delay-100" : "opacity-0"}`}
-            >
-              Events &amp; Programs
-            </h2>
-          </div>
-          <p
-            className={`text-white/40 max-w-md text-xs sm:text-sm md:text-base ${inView ? "animate-fade-in-up delay-200" : "opacity-0"}`}
-          >
-            Click any event to open the full competition dashboard with
-            guidelines, timelines, and direct action links.
-          </p>
-        </div>
-        <div
-          className={`flex flex-wrap gap-2 mb-8 sm:mb-10 ${inView ? "animate-fade-in-up delay-300" : "opacity-0"}`}
-        >
-          {filters.map((f) => (
-            <button
-              key={f}
-              onClick={() => setActiveFilter(f)}
-              className={`px-3 sm:px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium tracking-wide border transition-all duration-300 ${activeFilter === f ? "bg-white text-black border-white" : "border-white/10 text-white/40 hover:border-white/25 hover:text-white/70"}`}
-            >
-              {f}
-            </button>
-          ))}
-        </div>
-        <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-5">
-          {filtered.map((e, i) => (
-            <div
-              key={e.id}
-              className={`glass-card ${e.cardClass} rounded-2xl p-5 sm:p-6 group flex flex-col hover-lift cursor-pointer ${inView ? `animate-fade-in-up delay-${Math.min((i + 1) * 100, 600)}` : "opacity-0"}`}
-              onClick={() => setSelectedEvent(e)}
-            >
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex items-center gap-3">
-                  <span className="text-2xl sm:text-3xl group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
-                    {e.icon}
-                  </span>
-                  <div>
-                    <h3 className="font-heading text-base sm:text-lg font-semibold text-white leading-tight">
-                      {e.title}
-                    </h3>
-                    <span
-                      className={`text-[9px] sm:text-[10px] tracking-widest uppercase border rounded-full px-2 py-0.5 ${e.tagClass}`}
-                    >
-                      {e.tag}
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-wrap gap-3 mb-3 text-xs text-white/35">
-                <span className="flex items-center gap-1">
-                  <svg
-                    className="w-3 h-3"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={1.5}
-                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                    />
-                  </svg>
-                  {e.date}
-                </span>
-                <span className="flex items-center gap-1">
-                  <svg
-                    className="w-3 h-3"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={1.5}
-                      d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
-                  </svg>
-                  {e.seats}
-                </span>
-              </div>
-              <p className="text-white/35 text-xs sm:text-sm leading-relaxed flex-1">
-                {e.description}
-              </p>
-              <div className="mt-4 flex flex-wrap gap-1.5">
-                {e.highlights.map((h, hi) => (
-                  <span
-                    key={hi}
-                    className="text-[10px] text-white/30 border border-white/8 rounded-full px-2 py-0.5 bg-white/[0.02]"
-                  >
-                    {h}
-                  </span>
-                ))}
-              </div>
-              <div className="mt-5 flex items-center justify-between">
-                <span className="enroll-btn pointer-events-none">
-                  <svg
-                    className="w-3.5 h-3.5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                    />
-                  </svg>
-                  View Details
-                </span>
-                <span className="flex items-center gap-1 text-white/20 group-hover:text-white/40 transition-colors text-xs">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400/60 animate-pulse" />
-                  {e.status}
-                </span>
-              </div>
-            </div>
-          ))}
-        </div>
-        {filtered.length === 0 && (
-          <div className="text-center py-16 text-white/20 text-sm">
-            No events in this category yet. Check back soon.
-          </div>
-        )}
-      </div>
-      {selectedEvent && (
-        <EventDashboardModal
-          event={selectedEvent}
-          onClose={() => setSelectedEvent(null)}
-        />
-      )}
-    </section>
-  );
-}
 
 /* --------------------------------------------------------------
    TEAM
@@ -1925,9 +1271,9 @@ function LandingPage() {
       <Hero />
       <MarqueeBanner />
       <About />
-      <Domains />
+
       <InductionPipeline />
-      <Events />
+  
   
       <Contact />
     </>

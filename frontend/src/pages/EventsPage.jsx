@@ -1,0 +1,1318 @@
+import { useState, useEffect, useRef } from "react";
+import accLogo from "../assets/acc-logo.png";
+const FORM_LINKS = {
+  induction:
+    import.meta.env.VITE_INDUCTION_FORM_URL ??
+    "https://forms.gle/your-induction-form-link",
+  analyticsBootcamp:
+    import.meta.env.VITE_ANALYTICS_BOOTCAMP_FORM_URL ??
+    "https://forms.gle/your-analytics-workshop-link",
+  caseCrunch:
+    import.meta.env.VITE_CASE_CRUNCH_FORM_URL ??
+    "https://forms.gle/your-case-crunch-form-link",
+  dataverse:
+    import.meta.env.VITE_DATAVERSE_FORM_URL ??
+    "https://forms.gle/your-dataverse-form-link",
+  consultOMania:
+    import.meta.env.VITE_CONSULT_O_MANIA_FORM_URL ??
+    "https://forms.gle/your-consult-form-link",
+  summit:
+    import.meta.env.VITE_ANALYTICS_SUMMIT_FORM_URL ??
+    "https://forms.gle/your-summit-form-link",
+};
+const RESOURCE_LINKS = {
+  analyticsBootcampDataset:
+    import.meta.env.VITE_ANALYTICS_BOOTCAMP_DATASET_URL ??
+    "https://drive.google.com/your-dataset-link",
+  caseCrunchDataset:
+    import.meta.env.VITE_CASE_CRUNCH_DATASET_URL ??
+    "https://drive.google.com/your-case-crunch-dataset",
+  caseCrunchPpt:
+    import.meta.env.VITE_CASE_CRUNCH_PPT_URL ??
+    "https://forms.gle/your-ppt-submission-link",
+  dataverseDataset:
+    import.meta.env.VITE_DATAVERSE_DATASET_URL ??
+    "https://drive.google.com/your-dataverse-dataset",
+  dataversePpt:
+    import.meta.env.VITE_DATAVERSE_PPT_URL ??
+    "https://forms.gle/your-dataverse-submission-link",
+  summitPpt: import.meta.env.VITE_ANALYTICS_SUMMIT_PPT_URL ?? "",
+};
+/* ââ Rich event data with Unstop-style fields ââ */
+const EVENTS = [
+  {
+    id: "induction",
+    title: "Club Induction 2026",
+    tag: "Induction",
+    tagClass: "tag-induction",
+    cardClass: "event-card-induction",
+    accentColor: "#10B981",
+    icon: "ð",
+    date: "August 2026",
+    seats: "50 seats",
+    teamSize: "Individual",
+    eligibility: "1st & 2nd Year Students",
+    registered: 0,
+    portalStatus: "Induction Portal Active",
+    description:
+      "The official onboarding ceremony for new ACC members. Get introduced to our culture, domains, ongoing projects, and senior mentors. This is your gateway into one of NIT Jamshedpur's most active analytical communities.",
+    about: [
+      "ACC Induction is a structured, merit-based selection process designed to identify passionate and driven students who want to contribute to the analytics and consulting ecosystem at NIT Jamshedpur.",
+      "Selected members gain access to live industry projects, case competition training, mentorship from seniors placed at top consulting and analytics firms, and a vibrant peer network.",
+      "The process evaluates candidates across multiple dimensions â analytical aptitude, structured thinking, communication, and cultural alignment with ACC's values.",
+    ],
+    eligibilityRules: [
+      "Open to 1st and 2nd year B.Tech / Integrated M.Tech students of NIT Jamshedpur",
+      "No prior experience required â we train from scratch",
+      "Must be available for all rounds of the selection process",
+      "Genuine interest in analytics, consulting, finance, or product strategy",
+    ],
+    evaluationCriteria: [
+      "Quantitative & logical aptitude score",
+      "Case structuring clarity and hypothesis-driven thinking",
+      "Communication and presentation skills",
+      "Cultural fit and long-term commitment to the club",
+    ],
+    rounds: [
+      {
+        title: "Round 1 â Digital Registration",
+        date: "Aug 1â10, 2026",
+        status: "Live",
+        description:
+          "Fill the structured digital application form covering academic background, domain interests, and motivation. Shortlisting based on form quality.",
+      },
+      {
+        title: "Round 2 â Analytical Screening",
+        date: "Aug 15, 2026",
+        status: "Locked",
+        description:
+          "A 45-minute online test covering quantitative aptitude, data interpretation, logical reasoning, and case-based MCQs. Top 30% advance.",
+      },
+      {
+        title: "Round 3 â Case Structuring",
+        date: "Aug 20â22, 2026",
+        status: "Locked",
+        description:
+          "Live 20-minute case structuring session with a senior ACC member. You receive a business problem and are evaluated on structured thinking and communication.",
+      },
+      {
+        title: "Round 4 â Core Board Interview",
+        date: "Aug 25â27, 2026",
+        status: "Locked",
+        description:
+          "Final personal interview with the ACC Core Board assessing cultural fit, domain passion, and long-term commitment. Successful candidates receive offer letters.",
+      },
+    ],
+    highlights: [
+      "Meet the core team",
+      "Domain orientation",
+      "Project showcase",
+      "Mentorship pairing",
+    ],
+    form_external_link: FORM_LINKS.induction,
+    dataset_download_link: "",
+    ppt_submit_link: "",
+    status: "upcoming",
+  },
+  {
+    id: "workshop-analytics",
+    title: "Analytics Bootcamp",
+    tag: "Workshop",
+    tagClass: "tag-workshop",
+    cardClass: "event-card-workshop",
+    accentColor: "#7C3AED",
+    icon: "ð ï¸",
+    date: "September 2026",
+    seats: "40 seats",
+    teamSize: "Individual",
+    eligibility: "All Years",
+    registered: 0,
+    portalStatus: "Registrations Open",
+    description:
+      "Hands-on workshop covering Python for data analysis, Pandas, Matplotlib, and building your first ML pipeline from scratch.",
+    about: [
+      "The Analytics Bootcamp is a 2-day intensive hands-on workshop designed to take you from zero to building your first end-to-end data pipeline.",
+      "You will work with real datasets, learn industry-standard tools, and build a mini-project that you can showcase in your portfolio.",
+      "Sessions are led by ACC's senior tech members and alumni currently working in data science and analytics roles.",
+    ],
+    eligibilityRules: [
+      "Open to all years of B.Tech / M.Tech at NIT Jamshedpur",
+      "Basic programming knowledge preferred but not mandatory",
+      "Laptop with Python installed required for hands-on sessions",
+      "Limited to 40 participants for quality learning experience",
+    ],
+    evaluationCriteria: [
+      "Completion of all hands-on exercises",
+      "Mini-project submission at end of Day 2",
+      "Peer review and mentor feedback",
+    ],
+    rounds: [
+      {
+        title: "Round 1 â Registration",
+        date: "Sep 1â7, 2026",
+        status: "Live",
+        description:
+          "Register via the form below. First 40 confirmed registrations get a seat. Confirmation email sent within 24 hours.",
+      },
+      {
+        title: "Round 2 â Day 1: Foundations",
+        date: "Sep 14, 2026",
+        status: "Locked",
+        description:
+          "Python fundamentals, Pandas for data wrangling, Matplotlib & Seaborn for visualization. Hands-on exercises with real datasets.",
+      },
+      {
+        title: "Round 3 â Day 2: ML Pipeline",
+        date: "Sep 15, 2026",
+        status: "Locked",
+        description:
+          "Scikit-learn basics, building a classification model, evaluation metrics, and mini-project submission. Certificate of completion awarded.",
+      },
+    ],
+    highlights: [
+      "Python & Pandas",
+      "Data visualization",
+      "ML fundamentals",
+      "Live project",
+    ],
+    form_external_link: FORM_LINKS.analyticsBootcamp,
+    dataset_download_link: RESOURCE_LINKS.analyticsBootcampDataset,
+    ppt_submit_link: "",
+    status: "upcoming",
+  },
+  {
+    id: "case-crunch",
+    title: "Case Crunch 2026",
+    tag: "Flagship",
+    tagClass: "tag-flagship",
+    cardClass: "event-card-flagship",
+    accentColor: "#F59E0B",
+    icon: "ð",
+    date: "October 2026",
+    seats: "500+ participants",
+    teamSize: "Teams of 2â3",
+    eligibility: "All Colleges",
+    registered: 0,
+    portalStatus: "Flagship Event Â· Registrations Soon",
+    description:
+      "Our annual inter-college case study competition attracting participants from premier B-schools and engineering institutes across India.",
+    about: [
+      "Case Crunch is ACC's flagship annual inter-college case study competition, now in its 3rd edition. It attracts 500+ participants from premier B-schools and engineering institutes across India.",
+      "Teams are given a real-world business problem and must deliver a structured, data-backed solution deck within a defined timeframe. The best teams present to a panel of industry judges.",
+      "Past editions have featured problems from sectors including FMCG, fintech, healthcare, and e-commerce, with judges from McKinsey, BCG, Deloitte, and leading startups.",
+    ],
+    eligibilityRules: [
+      "Open to students from any college across India",
+      "Teams of 2â3 members only (no solo entries)",
+      "At least one team member must be a current student",
+      "Each participant can be part of only one team",
+    ],
+    evaluationCriteria: [
+      "Problem structuring and MECE framework application",
+      "Data analysis quality and insight depth",
+      "Solution feasibility and business impact",
+      "Presentation clarity and Q&A handling",
+    ],
+    rounds: [
+      {
+        title: "Round 1 â Team Registration",
+        date: "Oct 1â10, 2026",
+        status: "Live",
+        description:
+          "Register your team via the form. Download the problem statement PDF after registration confirmation.",
+      },
+      {
+        title: "Round 2 â Solution Deck Submission",
+        date: "Oct 15, 2026",
+        status: "Locked",
+        description:
+          "Submit your analytical solution deck (PPT/PDF, max 12 slides) via the submission portal. Top 20 teams advance to finals.",
+      },
+      {
+        title: "Round 3 â Grand Finale",
+        date: "Oct 22, 2026",
+        status: "Locked",
+        description:
+          "Top 20 teams present live to a panel of industry judges at NIT Jamshedpur. Cash prizes for top 3 teams. Networking dinner follows.",
+      },
+    ],
+    highlights: [
+      "Inter-college",
+      "Cash prizes",
+      "Industry judges",
+      "Networking",
+    ],
+    form_external_link: FORM_LINKS.caseCrunch,
+    dataset_download_link: RESOURCE_LINKS.caseCrunchDataset,
+    ppt_submit_link: RESOURCE_LINKS.caseCrunchPpt,
+    status: "upcoming",
+  },
+  {
+    id: "dataverse",
+    title: "DataVerse Hackathon",
+    tag: "Hackathon",
+    tagClass: "tag-hackathon",
+    cardClass: "event-card-hackathon",
+    accentColor: "#F59E0B",
+    icon: "â¡",
+    date: "November 2026",
+    seats: "100 participants",
+    teamSize: "Teams of 2â4",
+    eligibility: "NIT Jamshedpur Students",
+    registered: 0,
+    portalStatus: "Hackathon Portal Opening Soon",
+    description:
+      "A 24-hour data science hackathon where teams solve real industry problems using analytics, ML, and creative visualization.",
+    about: [
+      "DataVerse is ACC's annual 24-hour data science hackathon, bringing together the best analytical minds at NIT Jamshedpur to solve real industry-sponsored problems.",
+      "Teams receive a dataset and problem statement at the start of the hackathon and must build an end-to-end analytical solution â from EDA to model deployment â within 24 hours.",
+      "Industry mentors are available on-site throughout the hackathon. Solutions are judged on technical depth, business relevance, and presentation quality.",
+    ],
+    eligibilityRules: [
+      "Open to all students of NIT Jamshedpur",
+      "Teams of 2â4 members",
+      "Cross-department teams encouraged",
+      "Participants must bring their own laptops",
+    ],
+    evaluationCriteria: [
+      "Exploratory data analysis depth and quality",
+      "Model performance and technical rigor",
+      "Business insight and actionability of findings",
+      "Final presentation and live demo",
+    ],
+    rounds: [
+      {
+        title: "Round 1 â Team Registration",
+        date: "Nov 1â10, 2026",
+        status: "Live",
+        description:
+          "Register your team. Download the sample dataset to prepare. Problem statement released at hackathon start.",
+      },
+      {
+        title: "Round 2 â 24-Hour Hackathon",
+        date: "Nov 20â21, 2026",
+        status: "Locked",
+        description:
+          "The main event. Teams work on the problem dataset, build models, and prepare a solution deck. Mentors available throughout.",
+      },
+      {
+        title: "Round 3 â Final Presentations",
+        date: "Nov 21, 2026",
+        status: "Locked",
+        description:
+          "Top 8 teams present their solutions to judges. Winners announced and prizes distributed at the closing ceremony.",
+      },
+    ],
+    highlights: [
+      "24-hour sprint",
+      "Real datasets",
+      "Mentors on-site",
+      "Prizes & goodies",
+    ],
+    form_external_link: FORM_LINKS.dataverse,
+    dataset_download_link: RESOURCE_LINKS.dataverseDataset,
+    ppt_submit_link: RESOURCE_LINKS.dataversePpt,
+    status: "upcoming",
+  },
+  {
+    id: "consult-o-mania",
+    title: "Consult-O-Mania",
+    tag: "Workshop",
+    tagClass: "tag-workshop",
+    cardClass: "event-card-workshop",
+    accentColor: "#7C3AED",
+    icon: "ð¡",
+    date: "December 2026",
+    seats: "60 seats",
+    teamSize: "Individual",
+    eligibility: "All Years",
+    registered: 0,
+    portalStatus: "Workshop Registrations Open",
+    description:
+      "Interactive workshop series featuring industry leaders sharing insights on consulting frameworks, case interview prep, and career paths.",
+    about: [
+      "Consult-O-Mania is a 3-session workshop series designed to give you a comprehensive foundation in management consulting â from frameworks to interview prep.",
+      "Each session is led by an industry professional or ACC alumni currently working at top consulting firms. Sessions combine theory with live case practice.",
+      "By the end of the series, you will have a solid grasp of MECE, issue trees, hypothesis-driven problem solving, and how to structure a consulting engagement.",
+    ],
+    eligibilityRules: [
+      "Open to all years at NIT Jamshedpur",
+      "No prior consulting knowledge required",
+      "Attendance at all 3 sessions mandatory for certificate",
+      "Limited to 60 participants",
+    ],
+    evaluationCriteria: [
+      "Participation in live case exercises",
+      "Mock case interview performance",
+      "Final case submission quality",
+    ],
+    rounds: [
+      {
+        title: "Session 1 â Consulting Fundamentals",
+        date: "Dec 5, 2026",
+        status: "Live",
+        description:
+          "Introduction to consulting, MECE principle, issue trees, and hypothesis-driven thinking. Live case walkthrough.",
+      },
+      {
+        title: "Session 2 â Case Interview Prep",
+        date: "Dec 12, 2026",
+        status: "Locked",
+        description:
+          "Market sizing, profitability frameworks, and M&A cases. Peer practice with feedback from senior members.",
+      },
+      {
+        title: "Session 3 â Mock Interviews & Debrief",
+        date: "Dec 19, 2026",
+        status: "Locked",
+        description:
+          "Full mock case interviews with industry professionals. Personalized feedback and career guidance session.",
+      },
+    ],
+    highlights: [
+      "Industry speakers",
+      "Case frameworks",
+      "Mock interviews",
+      "Career guidance",
+    ],
+    form_external_link: FORM_LINKS.consultOMania,
+    dataset_download_link: "",
+    ppt_submit_link: "",
+    status: "upcoming",
+  },
+  {
+    id: "analytics-summit",
+    title: "Analytics Summit 2027",
+    tag: "Conference",
+    tagClass: "tag-conference",
+    cardClass: "event-card-conference",
+    accentColor: "#2563EB",
+    icon: "ð",
+    date: "January 2027",
+    seats: "200 seats",
+    teamSize: "Individual",
+    eligibility: "Open to All",
+    registered: 0,
+    portalStatus: "Conference Â· Early Bird Open",
+    description:
+      "An annual conference bringing together thought leaders, alumni, and students to discuss the future of analytics and data-driven strategy.",
+    about: [
+      "The ACC Analytics Summit is our flagship annual conference, bringing together industry thought leaders, distinguished alumni, and the brightest student minds to explore the cutting edge of analytics and strategy.",
+      "The summit features keynote addresses, panel discussions, research paper presentations, and networking sessions across a full-day format.",
+      "Past summits have hosted speakers from Google, Amazon, McKinsey, Goldman Sachs, and leading Indian startups.",
+    ],
+    eligibilityRules: [
+      "Open to students, faculty, and industry professionals",
+      "Research paper submissions welcome from all colleges",
+      "Early bird registration closes 2 weeks before the event",
+      "In-person attendance at NIT Jamshedpur campus",
+    ],
+    evaluationCriteria: [
+      "Research paper review (for paper presenters)",
+      "Poster session judging",
+      "Best student presentation award",
+    ],
+    rounds: [
+      {
+        title: "Phase 1 â Early Bird Registration",
+        date: "Jan 1â15, 2027",
+        status: "Live",
+        description:
+          "Register early for discounted entry. Research paper and poster submission portal opens simultaneously.",
+      },
+      {
+        title: "Phase 2 â Paper Review & Schedule",
+        date: "Jan 16â20, 2027",
+        status: "Locked",
+        description:
+          "Submitted research papers reviewed by faculty panel. Accepted papers notified and scheduled for presentation slots.",
+      },
+      {
+        title: "Phase 3 â Summit Day",
+        date: "Jan 28, 2027",
+        status: "Locked",
+        description:
+          "Full-day conference with keynotes, panels, paper presentations, poster sessions, and networking dinner. Awards ceremony at close.",
+      },
+    ],
+    highlights: [
+      "Keynote speakers",
+      "Panel discussions",
+      "Alumni network",
+      "Research showcase",
+    ],
+    form_external_link: FORM_LINKS.summit,
+    dataset_download_link: "",
+    ppt_submit_link: RESOURCE_LINKS.summitPpt,
+    status: "upcoming",
+  },
+];
+function EventDashboardModal({ event, onClose }) {
+  const [activeTab, setActiveTab] = useState("about");
+
+  /* Lock body scroll, handle Escape */
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    const onKey = (e) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [onClose]);
+
+  const accent = event.accentColor || "#2563EB";
+
+  /* External action buttons config â only render if link is non-empty */
+  const actions = [
+    {
+      key: "register",
+      label: "Register & Fill Form",
+      sublabel: "Official registration portal",
+      icon: (
+        <svg
+          className="w-4 h-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+          />
+        </svg>
+      ),
+      href: event.form_external_link,
+      primary: true,
+    },
+    {
+      key: "dataset",
+      label: "Download Dataset Matrix",
+      sublabel: "Problem data & resources",
+      icon: (
+        <svg
+          className="w-4 h-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+          />
+        </svg>
+      ),
+      href: event.dataset_download_link,
+      primary: false,
+    },
+    {
+      key: "ppt",
+      label: "Submit Solution Deck (PPT)",
+      sublabel: "Upload your presentation",
+      icon: (
+        <svg
+          className="w-4 h-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l4-4m0 0l4 4m-4-4v12"
+          />
+        </svg>
+      ),
+      href: event.ppt_submit_link,
+      primary: false,
+    },
+  ].filter((a) => a.href && a.href.trim() !== "");
+
+  return (
+    <div
+      className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto"
+      style={{ background: "rgba(2,5,12,0.94)", backdropFilter: "blur(14px)" }}
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
+      <div
+        className="relative w-full max-w-6xl mx-auto my-6 sm:my-10 rounded-2xl overflow-hidden anim-scale"
+        style={{ background: "#070D1A", border: `1px solid ${accent}22` }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* ââ HERO HEADER ââ */}
+        <div
+          className="relative px-5 sm:px-8 pt-8 pb-6"
+          style={{
+            background: `linear-gradient(135deg, ${accent}14 0%, transparent 60%)`,
+            borderBottom: `1px solid ${accent}18`,
+          }}
+        >
+          {/* Close */}
+          <button
+            onClick={onClose}
+            className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center transition-colors z-10"
+            style={{
+              background: "rgba(255,255,255,0.06)",
+              border: "1px solid rgba(255,255,255,0.1)",
+            }}
+            aria-label="Close"
+          >
+            <svg
+              className="w-4 h-4 text-slate-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+
+          {/* Club badge + title */}
+          <div className="flex items-start gap-4 mb-5">
+            <div
+              className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl flex items-center justify-center flex-shrink-0 text-2xl"
+              style={{
+                background: `${accent}18`,
+                border: `1px solid ${accent}30`,
+              }}
+            >
+              {event.icon}
+            </div>
+            <div className="flex-1 min-w-0 pr-8">
+              <div className="flex flex-wrap items-center gap-2 mb-1.5">
+                <span
+                  className="text-[10px] font-bold tracking-[0.18em] uppercase px-2.5 py-0.5 rounded-full border"
+                  style={{
+                    color: accent,
+                    borderColor: `${accent}40`,
+                    background: `${accent}12`,
+                  }}
+                >
+                  {event.portalStatus}
+                </span>
+                <span
+                  className={`text-[10px] tracking-widest uppercase border rounded-full px-2 py-0.5 ${event.tagClass}`}
+                >
+                  {event.tag}
+                </span>
+              </div>
+              <h2 className="font-heading text-xl sm:text-2xl md:text-3xl font-bold text-white leading-tight">
+                {event.title}
+              </h2>
+              <div className="flex items-center gap-2 mt-1.5">
+                <img
+                  src={accLogo}
+                  alt="ACC"
+                  className="w-4 h-4 rounded bg-white object-contain p-0.5"
+                />
+                <span className="text-slate-500 text-xs font-medium">
+                  Analytics &amp; Consultancy Club Â· NIT Jamshedpur
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Tracking metrics row â Unstop style */}
+          <div className="flex flex-wrap gap-3 sm:gap-5">
+            {[
+              {
+                label: "Registered",
+                value: `${event.registered} Users`,
+                icon: "ð¥",
+              },
+              { label: "Team Size", value: event.teamSize, icon: "ð¤" },
+              { label: "Eligibility", value: event.eligibility, icon: "ð" },
+              { label: "Date", value: event.date, icon: "ð" },
+              { label: "Seats", value: event.seats, icon: "ðº" },
+            ].map((m) => (
+              <div
+                key={m.label}
+                className="flex items-center gap-2 px-3 py-1.5 rounded-lg"
+                style={{
+                  background: "rgba(255,255,255,0.04)",
+                  border: "1px solid rgba(255,255,255,0.07)",
+                }}
+              >
+                <span className="text-sm">{m.icon}</span>
+                <div>
+                  <div className="text-[9px] text-slate-600 uppercase tracking-widest leading-none">
+                    {m.label}
+                  </div>
+                  <div className="text-xs text-slate-300 font-medium mt-0.5">
+                    {m.value}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ââ TWO-COLUMN BODY ââ */}
+        <div className="flex flex-col lg:flex-row">
+          {/* ââ LEFT PANEL â 70% ââ */}
+          <div
+            className="flex-1 min-w-0 px-5 sm:px-8 py-6"
+            style={{ borderRight: "1px solid rgba(255,255,255,0.05)" }}
+          >
+            {/* Tab navigation */}
+            <div
+              className="flex gap-0 mb-6 border-b"
+              style={{ borderColor: "rgba(255,255,255,0.07)" }}
+            >
+              {[
+                { key: "about", label: "About & Guidelines" },
+                { key: "timeline", label: "Stages & Timelines" },
+              ].map((tab) => (
+                <button
+                  key={tab.key}
+                  onClick={() => setActiveTab(tab.key)}
+                  className="relative px-4 sm:px-5 py-3 text-xs sm:text-sm font-semibold tracking-wide transition-all duration-200 -mb-px"
+                  style={{
+                    color:
+                      activeTab === tab.key ? accent : "rgba(148,163,184,0.7)",
+                    borderBottom:
+                      activeTab === tab.key
+                        ? `2px solid ${accent}`
+                        : "2px solid transparent",
+                  }}
+                >
+                  {tab.label}
+                  {activeTab === tab.key && (
+                    <span
+                      className="absolute bottom-0 left-0 right-0 h-px blur-sm"
+                      style={{ background: accent }}
+                    />
+                  )}
+                </button>
+              ))}
+            </div>
+
+            {/* ââ TAB 1: About & Guidelines ââ */}
+            {activeTab === "about" && (
+              <div className="space-y-6 anim-fade">
+                {/* Description paragraphs */}
+                <div>
+                  <h3 className="font-heading text-sm font-bold text-white mb-3 flex items-center gap-2">
+                    <span
+                      className="w-1 h-4 rounded-full inline-block"
+                      style={{ background: accent }}
+                    />
+                    About This Event
+                  </h3>
+                  <div className="space-y-3">
+                    {(event.about || [event.description]).map((para, i) => (
+                      <p
+                        key={i}
+                        className="text-slate-400 text-sm leading-relaxed"
+                      >
+                        {para}
+                      </p>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Eligibility */}
+                {event.eligibilityRules &&
+                  event.eligibilityRules.length > 0 && (
+                    <div>
+                      <h3 className="font-heading text-sm font-bold text-white mb-3 flex items-center gap-2">
+                        <span
+                          className="w-1 h-4 rounded-full inline-block"
+                          style={{ background: accent }}
+                        />
+                        Eligibility Criteria
+                      </h3>
+                      <ul className="space-y-2">
+                        {event.eligibilityRules.map((rule, i) => (
+                          <li
+                            key={i}
+                            className="flex items-start gap-2.5 text-sm text-slate-400"
+                          >
+                            <span
+                              className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0"
+                              style={{ background: accent }}
+                            />
+                            {rule}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                {/* Evaluation */}
+                {event.evaluationCriteria &&
+                  event.evaluationCriteria.length > 0 && (
+                    <div>
+                      <h3 className="font-heading text-sm font-bold text-white mb-3 flex items-center gap-2">
+                        <span
+                          className="w-1 h-4 rounded-full inline-block"
+                          style={{ background: accent }}
+                        />
+                        Evaluation Criteria
+                      </h3>
+                      <div className="grid sm:grid-cols-2 gap-2">
+                        {event.evaluationCriteria.map((c, i) => (
+                          <div
+                            key={i}
+                            className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm text-slate-400"
+                            style={{
+                              background: "rgba(255,255,255,0.03)",
+                              border: "1px solid rgba(255,255,255,0.06)",
+                            }}
+                          >
+                            <span
+                              className="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold flex-shrink-0"
+                              style={{
+                                background: `${accent}20`,
+                                color: accent,
+                              }}
+                            >
+                              {i + 1}
+                            </span>
+                            {c}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                {/* Highlights chips */}
+                <div>
+                  <h3 className="font-heading text-sm font-bold text-white mb-3 flex items-center gap-2">
+                    <span
+                      className="w-1 h-4 rounded-full inline-block"
+                      style={{ background: accent }}
+                    />
+                    What You Get
+                  </h3>
+                  <div className="flex flex-wrap gap-2">
+                    {event.highlights.map((h, i) => (
+                      <span
+                        key={i}
+                        className="text-xs px-3 py-1.5 rounded-full font-medium"
+                        style={{
+                          color: accent,
+                          background: `${accent}12`,
+                          border: `1px solid ${accent}25`,
+                        }}
+                      >
+                        {h}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* ââ TAB 2: Stages & Timelines ââ */}
+            {activeTab === "timeline" && (
+              <div className="anim-fade">
+                <div className="relative">
+                  {/* Vertical connector line */}
+                  <div
+                    className="absolute left-[19px] top-6 bottom-6 w-px"
+                    style={{
+                      background: `linear-gradient(180deg, ${accent}60, ${accent}10)`,
+                    }}
+                  />
+
+                  <div className="space-y-5">
+                    {(event.rounds || []).map((round, i) => {
+                      const isLive = round.status === "Live";
+                      return (
+                        <div key={i} className="flex gap-4 relative">
+                          {/* Step dot */}
+                          <div className="flex-shrink-0 relative z-10">
+                            <div
+                              className="w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold"
+                              style={{
+                                background: isLive
+                                  ? accent
+                                  : "rgba(255,255,255,0.05)",
+                                border: `2px solid ${isLive ? accent : "rgba(255,255,255,0.1)"}`,
+                                color: isLive
+                                  ? "#fff"
+                                  : "rgba(148,163,184,0.5)",
+                                boxShadow: isLive
+                                  ? `0 0 16px ${accent}50`
+                                  : "none",
+                              }}
+                            >
+                              {String(i + 1).padStart(2, "0")}
+                            </div>
+                          </div>
+
+                          {/* Round content */}
+                          <div
+                            className="flex-1 rounded-xl p-4 mb-1"
+                            style={{
+                              background: isLive
+                                ? `${accent}0A`
+                                : "rgba(255,255,255,0.02)",
+                              border: `1px solid ${isLive ? `${accent}30` : "rgba(255,255,255,0.06)"}`,
+                            }}
+                          >
+                            <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
+                              <h4 className="font-heading text-sm font-bold text-white">
+                                {round.title}
+                              </h4>
+                              <div className="flex items-center gap-2">
+                                <span className="text-[10px] text-slate-500">
+                                  {round.date}
+                                </span>
+                                <span
+                                  className="text-[9px] font-bold tracking-widest uppercase px-2 py-0.5 rounded-full"
+                                  style={
+                                    isLive
+                                      ? {
+                                          color: "#10B981",
+                                          background: "rgba(16,185,129,0.12)",
+                                          border:
+                                            "1px solid rgba(16,185,129,0.3)",
+                                        }
+                                      : {
+                                          color: "rgba(148,163,184,0.5)",
+                                          background: "rgba(255,255,255,0.04)",
+                                          border:
+                                            "1px solid rgba(255,255,255,0.08)",
+                                        }
+                                  }
+                                >
+                                  {isLive ? "â Live" : "ð Locked"}
+                                </span>
+                              </div>
+                            </div>
+                            <p className="text-slate-500 text-xs leading-relaxed">
+                              {round.description}
+                            </p>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* ââ RIGHT PANEL â sticky action sidebar 30% ââ */}
+          <div className="lg:w-72 xl:w-80 flex-shrink-0 px-5 sm:px-6 py-6">
+            <div className="lg:sticky lg:top-6 space-y-4">
+              {/* Important dates card */}
+              <div
+                className="rounded-xl p-4"
+                style={{
+                  background: "rgba(255,255,255,0.03)",
+                  border: "1px solid rgba(255,255,255,0.07)",
+                }}
+              >
+                <h4 className="font-heading text-xs font-bold text-white mb-3 tracking-wide uppercase flex items-center gap-2">
+                  <svg
+                    className="w-3.5 h-3.5"
+                    style={{ color: accent }}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                    />
+                  </svg>
+                  Critical Dates
+                </h4>
+                <div className="space-y-2.5">
+                  {(event.rounds || []).map((r, i) => (
+                    <div
+                      key={i}
+                      className="flex items-start justify-between gap-2"
+                    >
+                      <span className="text-slate-500 text-xs leading-snug flex-1">
+                        {r.title.split("â")[1]?.trim() || r.title}
+                      </span>
+                      <span
+                        className="text-[10px] font-semibold flex-shrink-0"
+                        style={{
+                          color:
+                            r.status === "Live"
+                              ? "#10B981"
+                              : "rgba(148,163,184,0.4)",
+                        }}
+                      >
+                        {r.date}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* External action buttons */}
+              <div className="space-y-2.5">
+                <h4 className="font-heading text-xs font-bold text-white tracking-wide uppercase flex items-center gap-2">
+                  <svg
+                    className="w-3.5 h-3.5"
+                    style={{ color: accent }}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M13 10V3L4 14h7v7l9-11h-7z"
+                    />
+                  </svg>
+                  Quick Actions
+                </h4>
+
+                {actions.map((action) => (
+                  <a
+                    key={action.key}
+                    href={action.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3 w-full px-4 py-3 rounded-xl transition-all duration-300 group"
+                    style={
+                      action.primary
+                        ? {
+                            background: `linear-gradient(135deg, ${accent}, ${accent}CC)`,
+                            border: `1px solid ${accent}`,
+                            color: "#fff",
+                          }
+                        : {
+                            background: `${accent}0D`,
+                            border: `1px solid ${accent}25`,
+                            color: accent,
+                          }
+                    }
+                  >
+                    <span className="flex-shrink-0 group-hover:scale-110 transition-transform duration-200">
+                      {action.icon}
+                    </span>
+                    <div className="flex-1 min-w-0 text-left">
+                      <div className="text-xs font-bold leading-tight">
+                        {action.label}
+                      </div>
+                      <div
+                        className="text-[10px] mt-0.5 leading-tight"
+                        style={{
+                          color: action.primary
+                            ? "rgba(255,255,255,0.7)"
+                            : `${accent}99`,
+                        }}
+                      >
+                        {action.sublabel}
+                      </div>
+                    </div>
+                    <svg
+                      className="w-3.5 h-3.5 flex-shrink-0 opacity-60 group-hover:translate-x-0.5 transition-transform"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                      />
+                    </svg>
+                  </a>
+                ))}
+
+                {actions.length === 0 && (
+                  <div className="text-center py-4 text-slate-600 text-xs">
+                    Action links coming soon
+                  </div>
+                )}
+              </div>
+
+              {/* Share / info note */}
+              <div
+                className="rounded-xl p-3 text-center"
+                style={{
+                  background: "rgba(255,255,255,0.02)",
+                  border: "1px solid rgba(255,255,255,0.05)",
+                }}
+              >
+                <p className="text-slate-600 text-[10px] leading-relaxed">
+                  All external links open in a new tab.
+                  <br />
+                  Contact{" "}
+                  <span className="text-blue-500">acc@nitjsr.ac.in</span> for
+                  queries.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* --------------------------------------------------------------
+   HERO
+-------------------------------------------------------------- */
+function Hero() {
+  return (
+    <section
+      id="hero"
+      className="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 overflow-hidden grid-pattern"
+    >
+      <div className="absolute top-1/4 left-1/4 w-64 sm:w-96 h-64 sm:h-96 rounded-full bg-white/[0.015] blur-3xl pointer-events-none animate-orb" />
+      <div className="absolute bottom-1/4 right-1/4 w-48 sm:w-72 h-48 sm:h-72 rounded-full bg-white/[0.01] blur-3xl pointer-events-none animate-orb-2" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-32 sm:h-40 bg-gradient-to-b from-transparent via-white/20 to-transparent" />
+      <div className="relative z-10 text-center w-full max-w-4xl mx-auto px-2">
+        <div className="animate-fade-in-up inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 rounded-full border border-white/10 bg-white/[0.03] mb-6 sm:mb-8">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse flex-shrink-0" />
+          <span className="text-white/50 text-[10px] sm:text-xs tracking-widest uppercase font-medium">
+            Est. NIT Jamshedpur
+          </span>
+        </div>
+        <div className="animate-fade-in-up delay-100">
+          <img
+            src={accLogo}
+            alt="ACC Logo"
+            className="w-20 h-20 sm:w-24 sm:h-24 lg:w-32 lg:h-32 mx-auto mb-5 sm:mb-6 rounded-2xl bg-white p-2 shadow-[0_0_60px_rgba(255,255,255,0.08)] animate-float-slow"
+          />
+        </div>
+        <h1 className="animate-fade-in-up delay-200 font-heading text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.1] tracking-tight">
+          Analytics &amp;
+          <br />
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white/80 to-white/50">
+            Consultancy Club
+          </span>
+        </h1>
+        <p className="animate-fade-in-up delay-300 mt-4 sm:mt-6 text-white/40 text-base sm:text-lg md:text-xl max-w-2xl mx-auto leading-relaxed px-2">
+          Empowering the next generation of analytical leaders and strategic
+          thinkers at NIT Jamshedpur.
+        </p>
+        <div className="animate-fade-in-up delay-400 mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+          <a
+            href="#about"
+            className="group w-full sm:w-auto px-7 sm:px-8 py-3.5 bg-white text-black rounded-full font-semibold text-sm tracking-wide hover:shadow-[0_0_30px_rgba(255,255,255,0.15)] transition-all duration-500 flex items-center justify-center gap-2"
+          >
+            Explore
+            <svg
+              className="w-4 h-4 group-hover:translate-x-1 transition-transform"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M17 8l4 4m0 0l-4 4m4-4H3"
+              />
+            </svg>
+          </a>
+          <a
+            href="#events-portal"
+            className="w-full sm:w-auto px-7 sm:px-8 py-3.5 border border-white/15 text-white/70 rounded-full font-medium text-sm tracking-wide hover:border-white/30 hover:text-white transition-all duration-500 text-center"
+          >
+            Active Portals
+          </a>
+        </div>
+      </div>
+      <div className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-fade-in-up delay-700">
+        <span className="text-white/20 text-[9px] sm:text-[10px] tracking-[0.3em] uppercase">
+          Scroll
+        </span>
+        <div className="w-px h-6 sm:h-8 bg-gradient-to-b from-white/30 to-transparent" />
+      </div>
+    </section>
+  );
+}
+
+function Events() {
+  const [activeFilter, setActiveFilter] = useState("All");
+  const [selectedEvent, setSelectedEvent] = useState(null);
+  const filters = [
+    "All",
+    "Induction",
+    "Workshop",
+    "Hackathon",
+    "Flagship",
+    "Conference",
+  ];
+  const filtered =
+    activeFilter === "All"
+      ? EVENTS
+      : EVENTS.filter((e) => e.tag === activeFilter);
+
+  return (
+    <section
+      id="events-portal"
+      className="relative section-py px-4 sm:px-6 border-t border-white/5"
+    >
+      <div className="max-w-7xl mx-auto">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8 sm:mb-12">
+          <div>
+            <span
+              className={`text-white/30 text-xs tracking-[0.3em] uppercase font-medium `}
+            >
+              Active Portals
+            </span>
+            <h2
+              className={`mt-3 sm:mt-4 font-heading text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white`}
+            >
+              Events &amp; Programs
+            </h2>
+          </div>
+          <p
+            className={`text-white/40 max-w-md text-xs sm:text-sm md:text-base `}
+          >
+            Click any event to open the full competition dashboard with
+            guidelines, timelines, and direct action links.
+          </p>
+        </div>
+        <div
+          className={`flex flex-wrap gap-2 mb-8 sm:mb-10 `}
+        >
+          {filters.map((f) => (
+            <button
+              key={f}
+              onClick={() => setActiveFilter(f)}
+              className={`px-3 sm:px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium tracking-wide border transition-all duration-300 ${activeFilter === f ? "bg-white text-black border-white" : "border-white/10 text-white/40 hover:border-white/25 hover:text-white/70"}`}
+            >
+              {f}
+            </button>
+          ))}
+        </div>
+        <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-5">
+          {filtered.map((e, i) => (
+            <div
+              key={e.id}
+              className={`glass-card ${e.cardClass} rounded-2xl p-5 sm:p-6 group flex flex-col hover-lift cursor-pointer `}
+              onClick={() => setSelectedEvent(e)}
+            >
+              <div className="flex items-start justify-between mb-4">
+                <div className="flex items-center gap-3">
+                  <span className="text-2xl sm:text-3xl group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
+                    {e.icon}
+                  </span>
+                  <div>
+                    <h3 className="font-heading text-base sm:text-lg font-semibold text-white leading-tight">
+                      {e.title}
+                    </h3>
+                    <span
+                      className={`text-[9px] sm:text-[10px] tracking-widest uppercase border rounded-full px-2 py-0.5 ${e.tagClass}`}
+                    >
+                      {e.tag}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-wrap gap-3 mb-3 text-xs text-white/35">
+                <span className="flex items-center gap-1">
+                  <svg
+                    className="w-3 h-3"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={1.5}
+                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                    />
+                  </svg>
+                  {e.date}
+                </span>
+                <span className="flex items-center gap-1">
+                  <svg
+                    className="w-3 h-3"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={1.5}
+                      d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
+                  </svg>
+                  {e.seats}
+                </span>
+              </div>
+              <p className="text-white/35 text-xs sm:text-sm leading-relaxed flex-1">
+                {e.description}
+              </p>
+              <div className="mt-4 flex flex-wrap gap-1.5">
+                {e.highlights.map((h, hi) => (
+                  <span
+                    key={hi}
+                    className="text-[10px] text-white/30 border border-white/8 rounded-full px-2 py-0.5 bg-white/[0.02]"
+                  >
+                    {h}
+                  </span>
+                ))}
+              </div>
+              <div className="mt-5 flex items-center justify-between">
+                <span className="enroll-btn pointer-events-none">
+                  <svg
+                    className="w-3.5 h-3.5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                    />
+                  </svg>
+                  View Details
+                </span>
+                <span className="flex items-center gap-1 text-white/20 group-hover:text-white/40 transition-colors text-xs">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400/60 animate-pulse" />
+                  {e.status}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+        {filtered.length === 0 && (
+          <div className="text-center py-16 text-white/20 text-sm">
+            No events in this category yet. Check back soon.
+          </div>
+        )}
+      </div>
+      {selectedEvent && (
+        <EventDashboardModal
+          event={selectedEvent}
+          onClose={() => setSelectedEvent(null)}
+        />
+      )}
+    </section>
+  );
+}
+export default Events;
