@@ -16,6 +16,7 @@ import Domains from "./pages/DomainPage";
 import Events from "./pages/EventsPage";
 import Navbar from "./components/navBar.jsx";
 import Footer from "./components/footer.jsx";
+import ScrollToTop from "./utilities/ScrollToTop.jsx";
 
 const SECTION_LINKS = [
   { label: "About", href: "/#about" },
@@ -27,6 +28,7 @@ const SECTION_LINKS = [
 function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <div className="min-h-screen bg-[#04080F] text-white font-sans antialiased overflow-x-hidden">
         <Navbar SECTION_LINKS={SECTION_LINKS} />
         <Routes>
