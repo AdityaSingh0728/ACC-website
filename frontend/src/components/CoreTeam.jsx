@@ -1,15 +1,10 @@
-/* --------------------------------------------------------------
-   TEAM
--------------------------------------------------------------- */
-// const TEAM = [
-//   { name: "Club President", role: "Overall Lead", initials: "CP" },
-//   { name: "Vice President", role: "Strategy & Ops", initials: "VP" },
-//   { name: "Tech Lead", role: "Analytics Head", initials: "TL" },
-//   { name: "Events Head", role: "Events & Outreach", initials: "EH" },
-// ];
-import presidentImg from "../assets/presidentImg.jpg"
-import vp from "../assets/vp.jpg"
-const TEAM = [
+import presidentImg from "../assets/presidentImg.jpg";
+import vp from "../assets/vp.jpg";
+import wh1 from "../assets/wh1.png"
+import wh2 from "../assets/wh2.png"
+import ch1 from "../assets/ch1.jpg"
+import ch2 from "../assets/ch2.png"
+const members = [
   {
     name: "Aman Kr. Jha",
     role: "President",
@@ -23,157 +18,122 @@ const TEAM = [
   {
     name: "Mohit Patwari",
     role: "Web Head",
-    // image: mohitImg,
+    image: wh1,
   },
   {
     name: "Tushar Kumar",
     role: "Web Head",
-    // image: tusharImg,
+    image: wh2,
   },
   {
     name: "Dhruv Sahu",
     role: "Content Head",
-    // image: dhruvImg,
+    image: ch1,
   },
   {
     name: "Saksham Sagar",
     role: "Content Head",
-    // image: sakshamImg,
+    image: ch2,
   },
 ];
-const topTeam = TEAM.slice(0, 2);
-const bottomTeam = TEAM.slice(2);
-function Team() {
+
+function Card({ member }) {
   return (
-    // <section
-    //   id="team"
+    <div
+      className="
+        group
+        relative
+       
+        w-[400px]
+        h-[440px]
+        overflow-hidden
+        rounded-3xl
+        border
+        border-white/10
+        bg-white/[0.04]
+        p-8
+        backdrop-blur-xl
+        transition-all
+        duration-500
+        hover:-translate-y-2
+        hover:border-cyan-400/40
+        hover:bg-white/[0.06]
+        hover:shadow-[0_20px_60px_rgba(34,211,238,0.18)]
+      "
+    >
+      {/* Hover Glow */}
+      <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-cyan-400/10 via-transparent to-transparent opacity-0 transition duration-500 group-hover:opacity-100" />
 
-    //   className="relative section-py px-4 sm:px-6 border-t border-white/5"
-    // >
-    //   <div className="max-w-7xl mx-auto text-center">
-    //     <span
-    //       className={`text-white/30 text-xs tracking-[0.3em] uppercase font-medium `}
-    //     >
-    //       Leadership
-    //     </span>
-    //     <h2
-    //       className={`mt-3 sm:mt-4 font-heading text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white`}
-    //     >
-    //       The Core Team
-    //     </h2>
-    //     <p
-    //       className={`mt-3 sm:mt-4 text-white/40 text-sm sm:text-base max-w-lg mx-auto`}
-    //     >
-    //       Driven by passion and purpose - meet the people steering ACC forward.
-    //     </p>
-    //     <div className="mt-10 sm:mt-16 grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-    //       {TEAM.map((t, i) => (
-    //         <div
-    //           key={i}
-    //           className={`glass-card rounded-2xl p-5 sm:p-6 lg:p-8 group hover:scale-[1.03] `}
-    //         >
-    //           <div className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 mx-auto rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-3 sm:mb-4 group-hover:border-white/20 transition-colors">
-    //             <span className="font-heading text-lg sm:text-xl lg:text-2xl font-bold text-white/60">
-    //               {t.initials}
-    //             </span>
-    //           </div>
-    //           <h3 className="font-heading text-sm sm:text-base lg:text-lg font-semibold text-white">
-    //             {t.name}
-    //           </h3>
-    //           <p className="text-white/30 text-xs sm:text-sm mt-1">{t.role}</p>
-    //         </div>
-    //       ))}
-    //     </div>
-    //   </div>
-    // </section>
-    <section className="relative section-py px-4 sm:px-6">
-  <div className="max-w-7xl mx-auto">
+      <div className="relative flex h-full flex-col items-center">
+        {/* Image */}
+        <div className="h-90 w-64 overflow-hidden rounded-2xl bg-black shadow-lg">
+          <img
+            src={member.image}
+            alt={member.name}
+            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+          />
+        </div>
 
-    {/* Heading */}
-    <div className="text-center">
-  <span className="inline-block px-4 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-cyan-400 text-xs tracking-[0.3em] uppercase font-semibold">
-    Leadership
-  </span>
-
-<h2 className="mt-5 text-4xl sm:text-5xl lg:text-6xl font-extrabold bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 bg-clip-text text-transparent">
-  The Core Team
-</h2>
-
-  <p className="mt-5 max-w-2xl mx-auto text-slate-400 text-base sm:text-lg leading-relaxed">
-    Driven by <span className="text-blue-400 font-medium">passion</span> and{" "}
-    <span className="text-cyan-400 font-medium">purpose</span> —
-    meet the people steering <span className="text-white font-semibold">ACC</span> forward.
-  </p>
-</div>
-
-    {/* Top Row */}
-  <div className="mt-16 flex justify-center gap-10 flex-wrap">
-  {topTeam.map((member) => (
-    <div key={member.name} className="group relative w-80">
-
-      {/* Glow */}
-      <div className="absolute -inset-1 rounded-3xl bg-blue-500/30 blur-xl opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
-
-      {/* Card */}
-      <div
-        className="relative glass-card rounded-3xl p-7 text-center
-                   border border-white/10
-                   transition-all duration-500
-                   group-hover:-translate-y-2"
-      >
-        <img
-          src={member.image}
-          alt={member.name}
-          className="w-40 h-40 mx-auto rounded-2xl object-cover border border-white/10"
-        />
-
-        <h3 className="mt-5 text-xl font-semibold text-white">
+        {/* Name */}
+        <h3 className="mt-8 text-center text-2xl font-semibold text-white transition-colors duration-300 group-hover:text-cyan-300">
           {member.name}
         </h3>
 
-        <p className="mt-2 text-cyan-400">
+        {/* Role */}
+        <span className="mt-4 rounded-full border border-cyan-400/20 bg-cyan-400/10 px-5 py-2 text-sm font-medium tracking-wide text-cyan-300">
           {member.role}
-        </p>
+        </span>
       </div>
+
+      {/* Bottom Line */}
+      <div className="absolute bottom-0 left-0 h-[2px] w-0 bg-cyan-400 transition-all duration-500 group-hover:w-full" />
     </div>
-  ))}
-</div>
-
-    {/* Bottom Row */}
-   <div className="mt-12 flex justify-center flex-wrap gap-8">
-  {bottomTeam.map((member) => (
-    <div key={member.name} className="group relative w-80">
-
-      {/* Glow */}
-      <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-cyan-500 via-blue-500 to-indigo-600 blur-xl opacity-0 group-hover:opacity-30 transition-all duration-500"></div>
-
-      {/* Card */}
-      <div
-        className="relative glass-card rounded-3xl p-7 text-center
-                   border border-white/10
-                   transition-all duration-500
-                   group-hover:-translate-y-2"
-      >
-        <img
-          src={member.image}
-          alt={member.name}
-          className="w-40 h-40 mx-auto rounded-2xl object-cover border border-white/10"
-        />
-
-        <h3 className="mt-5 text-xl font-semibold text-white">
-          {member.name}
-        </h3>
-
-        <p className="mt-2 text-cyan-400">
-          {member.role}
-        </p>
-      </div>
-    </div>
-  ))}
-</div>
-  </div>
-</section>
   );
 }
 
-export default Team;
+export default function Team() {
+  return (
+    <section className="relative overflow-hidden bg-black py-28 px-6">
+      {/* Background Glow */}
+      <div className="absolute left-1/2 top-0 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-cyan-500/10 blur-[140px]" />
+
+      <div className="relative z-10 mx-auto max-w-6xl">
+        {/* Heading */}
+        <div className="text-center">
+          <p className="text-sm uppercase tracking-[0.35em] text-cyan-400">
+            Leadership
+          </p>
+
+          <h2 className="mt-4 text-6xl font-bold">
+            <span className="text-white">Meet Our </span>
+          
+            <span className="bg-gradient-to-r from-cyan-300 via-sky-400 to-blue-500 bg-clip-text text-transparent">
+              Core Team
+            </span>
+          </h2>
+
+          <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-gray-400">
+            The people driving innovation, collaboration, and growth at
+            Analytics & Consulting Club.
+          </p>
+        </div>
+
+        {/* Top Row - President & Vice President */}
+        <div className="mt-20 flex flex-wrap justify-center gap-12">
+          {members.slice(0, 2).map((member, index) => (
+            <Card key={index} member={member} />
+          ))}
+        </div>
+
+        {/* Bottom Row - Remaining Members */}
+        <div className="mt-12 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
+          {members.slice(2).map((member, index) => (
+            <div key={index} className="flex justify-center">
+              <Card member={member} />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}

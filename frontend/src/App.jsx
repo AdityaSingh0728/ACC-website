@@ -19,7 +19,7 @@ import Footer from "./components/footer.jsx";
 import ScrollToTop from "./utilities/ScrollToTop.jsx";
 
 const SECTION_LINKS = [
-  { label: "About", href: "/#about" },
+  { label: "Home", href: "/" },
   { label: "Domains", href: "/domains" },
   { label: "Active Portals", href: "/events-portal" },
   { label: "Team", href: "/team" },

@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import accLogo from "../assets/acc-logo.png";
 
 
+import TeamCarousel from "../pages/TeamCarousel";
 
 
 
@@ -1271,7 +1272,7 @@ function LandingPage() {
       <Hero />
       <MarqueeBanner />
       <About />
-
+      <TeamCarousel/>
       <InductionPipeline />
   
   
