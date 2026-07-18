@@ -3,15 +3,9 @@ import { useLocation, Routes, Route, Link, Links } from "react-router-dom";
 import accLogo from "../assets/acc-logo.png";
 
 function Navbar( {SECTION_LINKS} ) {
-  const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
 
-  useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 40);
-    window.addEventListener("scroll", fn);
-    return () => window.removeEventListener("scroll", fn);
-  }, []);
 
   useEffect(() => {
     setMobileOpen(false);
@@ -25,24 +19,10 @@ function Navbar( {SECTION_LINKS} ) {
     }
   };
 
-  const scrollToPortal = (e) => {
-    e.preventDefault();
-    if (location.pathname === "/") {
-      document
-        .getElementById("events-portal")
-        ?.scrollIntoView({ behavior: "smooth" });
-    } else {
-      window.location.href = "/#events-portal";
-    }
-  };
-
+ 
   return (
     <nav
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
-        scrolled
-          ? "bg-[#04080F]/90 backdrop-blur-xl border-b border-blue-500/10"
-          : "bg-transparent"
-      }`}
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 `}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 flex items-center justify-between h-16 lg:h-20">
         {/* Logo */}

@@ -80,23 +80,23 @@ export default function TeamCarousel() {
     if (offset < -total / 2) offset += total;
 
     let classes =
-      "absolute top-0 left-1/2 transition-all duration-700 ease-in-out";
+      "absolute top-0 left-1/2 transition-all duration-800 ease-in-out";
 
     if (offset === 0) {
       classes +=
         " -translate-x-1/2 scale-100 opacity-100 z-30";
     } else if (offset === -1) {
       classes +=
-        " -translate-x-[125%] scale-90 opacity-60 z-20";
+        " -translate-x-[125%] scale-90 opacity-90 z-20";
     } else if (offset === 1) {
       classes +=
-        " translate-x-[25%] scale-90 opacity-60 z-20";
+        " translate-x-[25%] scale-90 opacity-90 z-20";
     } else if (offset === -2) {
       classes +=
-        " -translate-x-[195%] scale-75 opacity-20 z-10";
+        " -translate-x-[195%] scale-75 opacity-80 z-10";
     } else if (offset === 2) {
       classes +=
-        " translate-x-[95%] scale-75 opacity-20 z-10";
+        " translate-x-[95%] scale-75 opacity-80 z-10";
     } else {
       classes += " opacity-0 pointer-events-none";
     }
